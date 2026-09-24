@@ -4,7 +4,7 @@ load_dotenv()
 
 class Config:
     # LLM
-    GEMINI_API_KEY =  os.getenv("GEMINI_API_KEY")
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
     # GROQ_API_KEY=
     
     # database
@@ -15,8 +15,8 @@ class Config:
     LOG_LEVEL = os.getenv("LOG_LEVEL",'INFO')
     
     # model
-    # FLASH_MODEL = 'gemini-1.5-flash'
-    # PRO_MODEL =''
+    FLASH_MODEL = 'gemini-3.5-flash-lite' 
+    PRO_MODEL =''
     
     # file
     MAX_FILE_SIZE =50

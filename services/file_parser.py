@@ -17,7 +17,9 @@ def get_create_user(session_token):
             db.add(user)
             db.commit()
             db.refresh(user)
-            logger.info(f"Created new user: {session_token[:5]}")
+            logger.info(f"Created new user: {session_token[:8]}")
+        else :
+            logger.info(f"Returning user: {session_token[:8]}")
         return user 
     except Exception as e:
         db.rollback()
@@ -26,6 +28,27 @@ def get_create_user(session_token):
     finally:
         db.close()
         
+
+def get_existing_user(user_id):
+    db = SessionLocal()
+    try:
+        last_upload = db.query(Upload).filter(
+            Upload.user_id == user_id, Upload.status =="complete"
+        ).order_by(Upload.uploaded_at.desc()).first()
+        
+        if not last_upload:
+            return {"has_data": False}
+
+        return {
+            "has_data": True,
+            "last_upload": last_upload,
+            "filename" : last_upload.file_name,
+            "row_count" : last_upload.row_count,
+            "uploaded_at" : last_upload.uploaded_at
+        }
+    finally:
+        db.close()
+    
         
 def parse_file(file):
     try:

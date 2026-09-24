@@ -5,6 +5,7 @@ from db.connection import Base, engine
 from core.logger import get_logger
 import uuid
 logger= get_logger(__name__)
+
 class User(Base):
     __tablename__= "users"
     
@@ -85,11 +86,12 @@ class Message(Base):
     question_type=Column(String)
     raw_data= Column(JSON)
     created_at=Column(DateTime, server_default = func.now())
-    pass
+    
 
 
 def create_tables():
     logger.info("Creating Database tables")
+    # Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     logger.info("Tables created successfully")
     

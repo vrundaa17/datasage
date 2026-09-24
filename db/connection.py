@@ -8,13 +8,9 @@ logger = get_logger(__name__)
 class Base(DeclarativeBase):
     pass
 
-engine  = create_engine(
-    config.DATABASE_URL, echo= config.APP_ENV =="development"
-)
+engine  = create_engine(config.DATABASE_URL, echo= config.APP_ENV =="development")
 
-SessionLocal = sessionmaker(
-    autocommit=False, autoflush = False, bind=engine
-)
+SessionLocal = sessionmaker(autocommit=False, autoflush = False, bind=engine)
 
 def get_db():
     db = SessionLocal()
