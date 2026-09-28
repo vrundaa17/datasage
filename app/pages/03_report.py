@@ -9,7 +9,7 @@ from app.components.charts import render_all_charts
 import app.components.report_card as report_card
 from core.logger import get_logger
 logger = get_logger(__name__)
-st.set_page_config(page_title="DataSage - Report", layout="wide")
+st.set_page_config(page_title="Report", layout="wide")
 st.title("Report")
 
 if "analysis_result" not in st.session_state:
@@ -20,10 +20,17 @@ if "analysis_result" not in st.session_state:
 
 result = st.session_state["analysis_result"]
 charts = st.session_state.get("charts", [])
+df = st.session_state.get("dataframe")
+filename = st.session_state.get("filename", "report")
+source_name = st.session_state.get("source_name", filename)
+source_type = st.session_state.get("source_type", "CSV Upload")
+user_id = st.session_state.get("user_id", "")
+
 
 st.caption(f"""Domain: **{result.get('data_domain','-')}** | \n
            Rows: **{result.get('row_count',0)}** | \n
            Quality: **{result.get('quality_score',0.0):.1f}%**""")
+
 
 report_card.render_quality_badge(result.get('quality_score',0.0))
 st.divider()

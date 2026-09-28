@@ -38,6 +38,7 @@ if uploaded_file:
             st.success("File uploaded successfully")
 
             col1, col2 = st.columns(2)
+            col1.metric("Rows", len(df))
             col2.metric("Columns", len(df.columns))
 
             st.subheader("Preview")

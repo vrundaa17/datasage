@@ -10,7 +10,7 @@ from db.models import AnalysisRun, Report, Upload
 from app.components.session import get_or_create_session_token
 from services.file_parser import get_create_user
 
-st.set_page_config(page_title="DataSage — History", layout="wide")
+st.set_page_config(page_title="History", layout="wide")
 st.title("Analysis History")
 
 session_token = get_or_create_session_token()
@@ -22,10 +22,11 @@ try:
     runs = (
         db.query(AnalysisRun)
         .filter(AnalysisRun.user_id == user_id)
-        .order_by(AnalysisRun.started_at.desc())
+        .order_by(AnalysisRun.completed_at.desc())
         .limit(20)
         .all()
     )
+
 finally:
     db.close()
 
@@ -37,7 +38,7 @@ if not runs:
 
 for run in runs:
     with st.expander(
-        f"Run — {run.started_at.strftime('%d %b %Y %H:%M') if run.started_at else 'Unknown date'} "
+        f"Run — {run.completed_at.strftime('%d %b %Y %H:%M') if run.completed_at else 'Unknown date'} "
         f"| Domain: {run.data_domain or '—'} "
         f"| Quality: {run.quality_score or 0:.1f}%"
     ):
